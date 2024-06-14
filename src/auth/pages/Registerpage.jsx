@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Form,
   FormControl,
@@ -13,6 +14,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { NavLink } from 'react-router-dom';
+import { EyeIcon, EyeOffIcon } from 'lucide-react';
 
 const initialValues = {
   name: '',
@@ -43,6 +45,12 @@ export const Registerpage = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+  };
+
+  const [showPassword, SetShowPassword] = useState(false);
+
+  const tooglePassword = () => {
+    SetShowPassword(!showPassword);
   };
 
   return (
@@ -90,7 +98,21 @@ export const Registerpage = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="Password" {...field} />
+                    <div className="relative w-full">
+                      <Input
+                        type={showPassword ? 'text' : 'password'}
+                        placeholder="Password"
+                        {...field}
+                      />
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={tooglePassword}
+                        className="absolute right-0 top-0 m-2.5 h-4 w-4 text-muted-foreground"
+                      >
+                        {!showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                      </Button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

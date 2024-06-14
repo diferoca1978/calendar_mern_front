@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Form,
   FormControl,
@@ -13,6 +14,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { NavLink } from 'react-router-dom';
+import { GoogleLogo } from '../../helpers/GoogleLogo';
+import { EyeIcon, EyeOffIcon } from 'lucide-react';
 
 const initialValues = {
   email: '',
@@ -38,6 +41,12 @@ export const Loginpage = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+  };
+
+  const [showPassword, SetShowPassword] = useState(false);
+
+  const tooglePassword = () => {
+    SetShowPassword(!showPassword);
   };
 
   return (
@@ -72,7 +81,21 @@ export const Loginpage = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="Password" {...field} />
+                    <div className="relative w-full">
+                      <Input
+                        type={showPassword ? 'text' : 'password'}
+                        placeholder="Password"
+                        {...field}
+                      />
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={tooglePassword}
+                        className="absolute right-0 top-0 m-2.5 h-4 w-4 text-muted-foreground"
+                      >
+                        {!showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                      </Button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -81,13 +104,22 @@ export const Loginpage = () => {
             <Button type="submit" className="w-full">
               Sing In
             </Button>
-            <div>
-              <p className="transition ease-in-out delay-100 hover:translate-x-3 hover:text-amber-500 hover:scale-105 duration-150">
-                <NavLink to="/auth/login">
-                  Do not have an account? Sing Up !!
-                </NavLink>
-              </p>
+
+            <div className="flex items-center justify-center space-x-2 my-2">
+              <span className="h-px w-16 bg-black"></span>
+              <span className="text-inherit font-normal">or</span>
+              <span className="h-px w-16 bg-black"></span>
             </div>
+
+            <Button type="submit" className="w-full">
+              <GoogleLogo /> <span className="ml-2">Sing In with Google</span>
+            </Button>
+
+            <p className="transition ease-in-out delay-100 hover:translate-x-3 hover:text-amber-500 hover:scale-105 duration-200">
+              <NavLink to="/auth/register">
+                Do not have an account? Sing Up !!
+              </NavLink>
+            </p>
           </form>
         </Form>
       </FormsLayout>
