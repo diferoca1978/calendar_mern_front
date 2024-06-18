@@ -7,12 +7,14 @@ import { MainLayout, AuthLayout } from '../layout';
 import { ErrorPage } from '../shared';
 import { CalendarPage } from '../calendar/pages/CalendarPage';
 import { Loginpage, Profilepage, Registerpage } from '../auth/pages';
+import { AboutPage } from '../calendar/pages/AboutPage';
 
 export const route = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<MainLayout />} errorElement={<ErrorPage />}>
-        <Route path="calendar" index element={<CalendarPage />} />
+        <Route index element={<CalendarPage />} />
+        <Route path="about" element={<AboutPage />} />
       </Route>
 
       <Route path="auth" element={<AuthLayout />} errorElement={<ErrorPage />}>
