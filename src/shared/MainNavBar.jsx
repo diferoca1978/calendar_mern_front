@@ -125,7 +125,7 @@ export const MainNavBar = () => {
               <Input
                 type="search"
                 placeholder="Search events..."
-                className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
+                className="pl-8 h-[40px] sm:w-[300px] md:w-[200px] lg:w-[300px]"
               />
             </div>
           </form>
