@@ -1,10 +1,12 @@
 import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 
-export const uiStore = create((set) => ({
-  isDateModalOpen: false,
+export const uiStore = create(
+  devtools((set) => ({
+    isDateModalOpen: false,
 
-  onOpenModal: () => set(state => ({ isDateModalOpen: state.isDateModalOpen = true })),
+    onOpenModal: () => set({ isDateModalOpen: true }),
 
-  onCloseModal: () => set(state => ({ isDateModalOpen: state.isDateModalOpen = false }))
-
-}));
+    onCloseModal: () => set({ isDateModalOpen: false }),
+  }))
+);

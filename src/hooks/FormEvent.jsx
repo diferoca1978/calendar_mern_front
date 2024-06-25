@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -12,15 +12,18 @@ import { addHours } from 'date-fns';
 import { Save } from 'lucide-react';
 import { Button, Input, Label, Separator } from '../components/ui';
 import { Textarea } from '../components/ui/textarea';
+import { calendarStore } from '../stores/calendarStore';
 
 export const FormEvent = () => {
+  const { isActive } = calendarStore();
+
   const [formSubmited, setFormSubmited] = useState(false);
 
   const [formValues, setFormValues] = useState({
     start: new Date(),
     end: addHours(new Date(), 2),
-    title: '',
-    note: '',
+    title: 'fernando herrera',
+    note: 'djgjjfg',
   });
 
   const isValidTitle = useMemo(() => {
@@ -28,6 +31,10 @@ export const FormEvent = () => {
 
     return formValues.title.length > 0 ? '' : 'invalid:border border-red-500';
   }, [formValues.title, formSubmited]);
+
+  useEffect(() => {
+    if (isActive !== null) setFormValues({ ...isActive });
+  }, [isActive]);
 
   const onInputChange = ({ target }) => {
     setFormValues({
