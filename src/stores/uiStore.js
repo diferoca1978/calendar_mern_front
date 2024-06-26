@@ -5,8 +5,18 @@ export const uiStore = create(
   devtools((set) => ({
     isDateModalOpen: false,
 
-    onOpenModal: () => set({ isDateModalOpen: true }),
+    onOpenModal: () =>
+      set(
+        (state) => ({ isDateModalOpen: (state.isDateModalOpen = true) }),
+        false,
+        'onOpenModal'
+      ),
 
-    onCloseModal: () => set({ isDateModalOpen: false }),
+    onCloseModal: () =>
+      set(
+        (state) => ({ isDateModalOpen: (state.isDateModalOpen = false) }),
+        false,
+        'onCloseModal'
+      ),
   }))
 );

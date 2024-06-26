@@ -1,16 +1,18 @@
-import { uiStore } from '../../stores/uiStore';
 import { Modal } from './Modal';
-import { FormEvent } from '../../hooks';
+import { FormEvent, useUiStore } from '../../hooks';
+import { FabAddNewEvent } from './FabAddNewEvent';
+import { FabDelete } from './FabDelete';
 
 export const CalendarModal = () => {
-  const isDateModalOpen = uiStore((state) => state.isDateModalOpen);
-  const { onCloseModal } = uiStore();
+  const { isDateModalOpen, onCloseModal } = useUiStore();
 
   return (
     <>
       <Modal isOpen={isDateModalOpen} onClose={onCloseModal}>
         <FormEvent />
       </Modal>
+      <FabAddNewEvent />
+      <FabDelete />
     </>
   );
 };

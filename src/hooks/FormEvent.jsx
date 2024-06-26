@@ -12,18 +12,20 @@ import { addHours } from 'date-fns';
 import { Save } from 'lucide-react';
 import { Button, Input, Label, Separator } from '../components/ui';
 import { Textarea } from '../components/ui/textarea';
-import { calendarStore } from '../stores/calendarStore';
+import { useStoreCalendar } from './useStoreCalendar';
+import { useUiStore } from './useUiStore';
 
 export const FormEvent = () => {
-  const { isActive } = calendarStore();
+  const { isActive, startSavingEvent } = useStoreCalendar();
+  const { onCloseModal } = useUiStore();
 
   const [formSubmited, setFormSubmited] = useState(false);
 
   const [formValues, setFormValues] = useState({
     start: new Date(),
     end: addHours(new Date(), 2),
-    title: 'fernando herrera',
-    note: 'djgjjfg',
+    title: '',
+    note: '',
   });
 
   const isValidTitle = useMemo(() => {
@@ -50,7 +52,7 @@ export const FormEvent = () => {
     });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     setFormSubmited(true);
 
@@ -81,6 +83,10 @@ export const FormEvent = () => {
     if (formValues.title.length <= 0) return;
 
     console.log(formValues);
+
+    await startSavingEvent(formValues);
+    onCloseModal();
+    setFormSubmited(false);
   };
   return (
     <>
