@@ -7,10 +7,17 @@ export const authStore = create(
     user: {},
     errorMessage: undefined,
 
-    checking: () =>
+    onChecking: () =>
       set((state) => ({
         status: (state.status = 'checking'),
         user: (state.user = {}),
+        errorMessage: (state.errorMessage = undefined),
+      })),
+
+    onLogin: (user) =>
+      set((state) => ({
+        status: (state.status = 'authenticathed'),
+        user: (state.user = user),
         errorMessage: (state.errorMessage = undefined),
       })),
   }))

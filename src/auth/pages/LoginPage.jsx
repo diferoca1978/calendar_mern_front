@@ -16,6 +16,7 @@ import { z } from 'zod';
 import { NavLink } from 'react-router-dom';
 import { GoogleLogo } from '../../helpers/GoogleLogo';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
+import { useAuthStore } from '../../hooks';
 
 const initialValues = {
   email: '',
@@ -30,7 +31,7 @@ const formSchema = z.object({
     .min(1, { message: 'Email is required' }),
   password: z
     .string()
-    .min(8, { message: 'Password must be at least 8 characters' }),
+    .min(3, { message: 'Password must be at least 3 characters' }),
 });
 
 export const Loginpage = () => {
@@ -39,8 +40,10 @@ export const Loginpage = () => {
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const { startLogin } = useAuthStore();
+
+  const onSubmit = ({ email, password }) => {
+    startLogin({ email, password });
   };
 
   const [showPassword, SetShowPassword] = useState(false);
@@ -89,6 +92,7 @@ export const Loginpage = () => {
                       />
                       <Button
                         variant="ghost"
+                        type="button"
                         size="icon"
                         onClick={tooglePassword}
                         className="absolute right-0 top-0 m-2.5 h-4 w-4 text-muted-foreground"

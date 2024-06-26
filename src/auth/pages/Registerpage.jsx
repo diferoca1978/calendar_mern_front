@@ -106,6 +106,7 @@ export const Registerpage = () => {
                       />
                       <Button
                         variant="ghost"
+                        type="button"
                         size="icon"
                         onClick={tooglePassword}
                         className="absolute right-0 top-0 m-2.5 h-4 w-4 text-muted-foreground"
