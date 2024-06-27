@@ -6,14 +6,20 @@ import { authStore } from '../stores';
 export const useAuthStore = () => {
   const status = authStore((state) => state.status);
   const user = authStore((state) => state.user);
-  const errorMesage = authStore((state) => state.errorMesage);
+  const errorMessage = authStore((state) => state.errorMessage);
+  const { onChecking, onLogin, onLogout, clearErrorMessage } = authStore();
 
   const startLogin = async ({ email, password }) => {
+    onChecking();
     try {
       const { data } = await calendarApi.post('/auth', { email, password });
-      console.log({ data });
+      localStorage.setItem('token', data.user.token);
+      onLogin({ name: data.user.name, token: data.user.token });
     } catch (error) {
-      console.log({ error });
+      onLogout('Incorrect credentials');
+      setTimeout(() => {
+        clearErrorMessage();
+      }, 10);
     }
   };
 
@@ -21,7 +27,7 @@ export const useAuthStore = () => {
     //* Properties
     status,
     user,
-    errorMesage,
+    errorMessage,
 
     //* Methods
     startLogin,

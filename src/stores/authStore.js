@@ -3,7 +3,7 @@ import { devtools } from 'zustand/middleware';
 
 export const authStore = create(
   devtools((set) => ({
-    status: 'cheking',
+    status: 'checking',
     user: {},
     errorMessage: undefined,
 
@@ -16,8 +16,20 @@ export const authStore = create(
 
     onLogin: (user) =>
       set((state) => ({
-        status: (state.status = 'authenticathed'),
+        status: (state.status = 'authenticated'),
         user: (state.user = user),
+        errorMessage: (state.errorMessage = undefined),
+      })),
+
+    onLogout: (payload) =>
+      set((state) => ({
+        status: (state.status = 'not-authenticated'),
+        user: (state.user = {}),
+        errorMessage: (state.errorMessage = payload),
+      })),
+
+    clearErrorMessage: () =>
+      set((state) => ({
         errorMessage: (state.errorMessage = undefined),
       })),
   }))
