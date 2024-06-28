@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Form,
   FormControl,
@@ -15,6 +15,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { NavLink } from 'react-router-dom';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
+import { useAuthStore } from '../../hooks';
+import Swal from 'sweetalert2';
 
 const initialValues = {
   name: '',
@@ -34,7 +36,7 @@ const formSchema = z.object({
     .min(1, { message: 'Email is required' }),
   password: z
     .string()
-    .min(8, { message: 'Password must be at least 8 characters' }),
+    .min(3, { message: 'Password must be at least 3 characters' }),
 });
 
 export const Registerpage = () => {
@@ -43,8 +45,10 @@ export const Registerpage = () => {
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const { startRegister, errorMessage } = useAuthStore();
+
+  const onSubmit = ({ name, email, password }) => {
+    startRegister({ name, email, password });
   };
 
   const [showPassword, SetShowPassword] = useState(false);
@@ -52,6 +56,31 @@ export const Registerpage = () => {
   const tooglePassword = () => {
     SetShowPassword(!showPassword);
   };
+
+  useEffect(() => {
+    if (errorMessage !== undefined) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Athentication error',
+        text: errorMessage,
+        showClass: {
+          popup: `
+            animate__animated
+            animate__fadeInUp
+            animate__faster
+          `,
+        },
+        hideClass: {
+          popup: `
+            animate__animated
+            animate__fadeOutDown
+            animate__faster
+          `,
+        },
+        showConfirmButton: true,
+      });
+    }
+  }, [errorMessage]);
 
   return (
     <>

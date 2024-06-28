@@ -14,10 +14,10 @@ export const authStore = create(
         errorMessage: (state.errorMessage = undefined),
       })),
 
-    onLogin: (user) =>
+    onLogin: (payload) =>
       set((state) => ({
         status: (state.status = 'authenticated'),
-        user: (state.user = user),
+        user: (state.user = payload),
         errorMessage: (state.errorMessage = undefined),
       })),
 

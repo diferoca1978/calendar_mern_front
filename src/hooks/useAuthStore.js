@@ -13,10 +13,32 @@ export const useAuthStore = () => {
     onChecking();
     try {
       const { data } = await calendarApi.post('/auth', { email, password });
+      console.log(data);
       localStorage.setItem('token', data.user.token);
-      onLogin({ name: data.user.name, token: data.user.token });
+      localStorage.setItem('token-init-date', new Date().getTime());
+      onLogin({ name: data.user.name, userId: data.user.userId });
     } catch (error) {
       onLogout('Incorrect credentials');
+      setTimeout(() => {
+        clearErrorMessage();
+      }, 10);
+    }
+  };
+
+  const startRegister = async ({ name, email, password }) => {
+    onChecking();
+
+    try {
+      const { data } = await calendarApi.post('/auth/singup', {
+        name,
+        email,
+        password,
+      });
+      localStorage.setItem('token', data.user.token);
+      localStorage.setItem('token-init-date', new Date().getTime());
+      onLogin({ name: data.user.name, userId: data.user.userId });
+    } catch (error) {
+      onLogout(error.response.data.errors.email.msg || '');
       setTimeout(() => {
         clearErrorMessage();
       }, 10);
@@ -31,5 +53,6 @@ export const useAuthStore = () => {
 
     //* Methods
     startLogin,
+    startRegister,
   };
 };
