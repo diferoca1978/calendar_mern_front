@@ -11,8 +11,11 @@ import { Sheet, SheetTrigger, SheetContent } from '../components/ui/sheet';
 import { Button, Input } from '../components/ui';
 import { Logo } from '../helpers/Logo';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
+import { useAuthStore } from '../hooks';
 
 export const MainNavBar = () => {
+  const { status } = useAuthStore();
+
   return (
     <>
       <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-primary px-4 md:px-6">
@@ -129,45 +132,50 @@ export const MainNavBar = () => {
               />
             </div>
           </form>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                className="rounded-full w-7 h-7"
+
+          {status === 'authenticated' && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="rounded-full w-7 h-7"
+                >
+                  <Avatar>
+                    <AvatarImage src="#" alt="avatarImage" />
+                    <AvatarFallback>UA</AvatarFallback>
+                  </Avatar>
+                  <span className="sr-only">Toogle user menu</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                className="bg-primary-foreground rounded-lg  p-2 mt-1"
               >
-                <Avatar>
-                  <AvatarImage src="#" alt="avatarImage" />
-                  <AvatarFallback>UA</AvatarFallback>
-                </Avatar>
-                <span className="sr-only">Toogle user menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="end"
-              className="bg-primary-foreground rounded-lg  p-2 mt-1"
-            >
-              <DropdownMenuLabel className="mb-2">My Account</DropdownMenuLabel>
-              <DropdownMenuItem className="p-1 outline-none hover:text-orange-500">
-                <NavLink
-                  to="/auth/profile"
-                  className="flex justify-between items-center"
-                >
-                  Profile
-                  <User />
-                </NavLink>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="p-1 outline-none hover:text-orange-500">
-                <NavLink
-                  to="/auth/profile"
-                  className="flex justify-between items-center"
-                >
-                  Logout
-                  <LogOut />
-                </NavLink>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                <DropdownMenuLabel className="mb-2">
+                  My Account
+                </DropdownMenuLabel>
+                <DropdownMenuItem className="p-1 outline-none hover:text-orange-500">
+                  <NavLink
+                    to="/auth/profile"
+                    className="flex justify-between items-center"
+                  >
+                    Profile
+                    <User />
+                  </NavLink>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="p-1 outline-none hover:text-orange-500">
+                  <NavLink
+                    to="/auth/profile"
+                    className="flex justify-between items-center"
+                  >
+                    Logout
+                    <LogOut />
+                  </NavLink>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
       </header>
     </>
