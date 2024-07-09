@@ -45,20 +45,14 @@ export const AuthNavBar = () => {
                   My Account
                 </DropdownMenuLabel>
                 <DropdownMenuItem className="p-1 outline-none hover:text-orange-500">
-                  <NavLink
-                    to="/auth/profile"
-                    className="flex justify-between items-center"
-                  >
-                    Profile
+                  <NavLink to="/auth/profile" className="flex gap-4">
+                    <p>Profile</p>
                     <User />
                   </NavLink>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="p-1 outline-none hover:text-orange-500">
-                  <NavLink
-                    to="/auth/profile"
-                    className="flex justify-between items-center"
-                  >
-                    Logout
+                  <NavLink to="/auth/profile" className="flex gap-4">
+                    <p>Logout</p>
                     <LogOut />
                   </NavLink>
                 </DropdownMenuItem>

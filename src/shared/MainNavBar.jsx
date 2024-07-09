@@ -34,34 +34,29 @@ export const MainNavBar = () => {
           >
             About
           </NavLink>
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button>SingIn</Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="end"
-              className="bg-primary-foreground rounded-lg p-2 mt-1"
-            >
-              <DropdownMenuLabel className="mb-2">Hello,</DropdownMenuLabel>
-              <DropdownMenuItem className="p-1 outline-none hover:text-orange-500">
-                <NavLink
-                  to="/auth/login"
-                  className="flex justify-between items-center"
-                >
-                  Sing In
-                </NavLink>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="p-1 outline-none hover:text-orange-500">
-                <NavLink
-                  to="/auth/register"
-                  className="flex justify-between items-center"
-                >
-                  Sing Up
-                </NavLink>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {status !== 'authenticated' && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button>SingIn</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                className="bg-primary-foreground rounded-lg p-2 mt-1"
+              >
+                <DropdownMenuLabel className="mb-2">Hello,</DropdownMenuLabel>
+                <DropdownMenuItem className="p-1 outline-none hover:text-orange-500">
+                  <NavLink to="/auth/login" className="flex gap-4">
+                    Sing In
+                  </NavLink>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="p-1 outline-none hover:text-orange-500">
+                  <NavLink to="/auth/register" className="flex gap-4">
+                    Sing Up
+                  </NavLink>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </nav>
         <Sheet>
           <SheetTrigger asChild>
@@ -156,19 +151,13 @@ export const MainNavBar = () => {
                   My Account
                 </DropdownMenuLabel>
                 <DropdownMenuItem className="p-1 outline-none hover:text-orange-500">
-                  <NavLink
-                    to="/auth/profile"
-                    className="flex justify-between items-center"
-                  >
+                  <NavLink to="/auth/profile" className="flex gap-4">
                     Profile
                     <User />
                   </NavLink>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="p-1 outline-none hover:text-orange-500">
-                  <NavLink
-                    to="/auth/profile"
-                    className="flex justify-between items-center"
-                  >
+                  <NavLink to="/auth/profile" className="flex gap-4">
                     Logout
                     <LogOut />
                   </NavLink>

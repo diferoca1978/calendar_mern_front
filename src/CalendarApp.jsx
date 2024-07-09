@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { RouterProvider } from 'react-router-dom';
-import { route } from './routes/AppRouter';
 import { useAuthStore } from './hooks';
+import { router } from './routes/AppRouter2';
 
 export const CalendarApp = () => {
   const { checkAuthToken } = useAuthStore();
@@ -12,7 +12,7 @@ export const CalendarApp = () => {
   }, []);
   return (
     <>
-      <RouterProvider router={route} />
+      <RouterProvider router={router} />
     </>
   );
 };
