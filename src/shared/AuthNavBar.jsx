@@ -13,7 +13,7 @@ import { Logo } from '../helpers/Logo';
 import { useAuthStore } from '../hooks';
 
 export const AuthNavBar = () => {
-  const { status } = useAuthStore();
+  const { status, startLogOut, user } = useAuthStore();
 
   return (
     <>
@@ -41,20 +41,29 @@ export const AuthNavBar = () => {
                 align="end"
                 className="bg-primary-foreground rounded-lg p-2 mt-1"
               >
-                <DropdownMenuLabel className="mb-2 border-b border-secondary-foreground pb-1">
-                  My Account
+                <DropdownMenuLabel className="mb-2 border-b border-secondary-foreground pb-1 text-center">
+                  <p>Welcome !!</p>
+                  <p>{user.name}</p>
                 </DropdownMenuLabel>
-                <DropdownMenuItem className="p-1 outline-none hover:text-orange-500">
-                  <NavLink to="/auth/profile" className="flex gap-4">
+                <DropdownMenuItem className="p-1 outline-none ">
+                  <NavLink
+                    to="/auth/profile"
+                    className="flex gap-4 hover:bg-transparent hover:text-orange-500"
+                  >
                     <p>Profile</p>
                     <User />
                   </NavLink>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="p-1 outline-none hover:text-orange-500">
-                  <NavLink to="/auth/profile" className="flex gap-4">
+                <DropdownMenuItem className="p-1 outline-none ">
+                  <Button
+                    onClick={startLogOut}
+                    type="button"
+                    variant="ghost"
+                    className="flex gap-4 p-0 font-normal hover:bg-transparent hover:text-orange-500"
+                  >
                     <p>Logout</p>
                     <LogOut />
-                  </NavLink>
+                  </Button>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
