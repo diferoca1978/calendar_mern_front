@@ -1,13 +1,14 @@
 //* this hook only have the purpose to perform any operation that have related by the authStore
 
 import { calendarApi } from '../api';
-import { authStore } from '../stores';
+import { authStore, calendarStore } from '../stores';
 
 export const useAuthStore = () => {
   const status = authStore((state) => state.status);
   const user = authStore((state) => state.user);
   const errorMessage = authStore((state) => state.errorMessage);
   const { onChecking, onLogin, onLogout, clearErrorMessage } = authStore();
+  const { onCleanCalendar } = calendarStore();
 
   const startLogin = async ({ email, password }) => {
     onChecking();
@@ -50,7 +51,6 @@ export const useAuthStore = () => {
 
     try {
       const { data } = await calendarApi.get('/auth/renew');
-      console.log(data);
       localStorage.setItem('token', data.user.token);
       localStorage.setItem('token-init-date', new Date().getTime());
       onLogin({ name: data.user.name, userId: data.user.userId });
@@ -62,6 +62,7 @@ export const useAuthStore = () => {
 
   const startLogOut = () => {
     localStorage.clear();
+    onCleanCalendar();
     onLogout();
   };
 

@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { calendarApi } from '../api';
 import { convertEventDate } from '../helpers';
 import { authStore, calendarStore } from '../stores';
@@ -18,23 +19,40 @@ export const useStoreCalendar = () => {
   const setActiveEvent = (calendarEvent) => onSetActiveEvent(calendarEvent);
 
   const startSavingEvent = async (calendarEvent) => {
-    // TODO: Update event
-
-    //? If all had been good
-
     try {
       if (calendarEvent.id) {
-        // Means Updating an event
-        onUpdateEvent({ ...calendarEvent });
+        //* Means updating event
+        await calendarApi.put(`/events/${calendarEvent.id}`, calendarEvent);
+        onUpdateEvent({ ...calendarEvent, user });
         return;
       }
 
-      // Means Creating an event
+      //* Means Creating an event
       const { data } = await calendarApi.post('/events', calendarEvent);
-      console.log({ data });
       onAddNewEvent({ ...calendarEvent, id: data.event.eventId, user });
     } catch (error) {
       console.log(error);
+      const errorMsg = error.response.data.msg;
+      Swal.fire({
+        icon: 'error',
+        title: 'Error to save the changes',
+        text: errorMsg,
+        showClass: {
+          popup: `
+            animate__animated
+            animate__fadeInUp
+            animate__faster
+          `,
+        },
+        hideClass: {
+          popup: `
+            animate__animated
+            animate__fadeOutDown
+            animate__faster
+          `,
+        },
+        showConfirmButton: true,
+      });
     }
   };
 
@@ -43,23 +61,39 @@ export const useStoreCalendar = () => {
       const { data } = await calendarApi.get('/events');
       const events = convertEventDate(data.events);
       onLoadEvents(events);
-      console.log(events);
     } catch (error) {
-      if (error.response) {
-        // Server responded with a status other than 200 range
-        console.error('Error response from server:', error.response.data);
-      } else if (error.request) {
-        // Request was made but no response received
-        console.error('No response received:', error.request);
-      } else {
-        // Something else happened in setting up the request
-        console.error('Error setting up request:', error.message);
-      }
+      console.log(error);
     }
   };
 
-  const deletEvent = () => {
-    onDeleteEvent();
+  const deletEvent = async () => {
+    try {
+      await calendarApi.delete(`/events/delete/${isActive.id}`);
+      onDeleteEvent();
+    } catch (error) {
+      console.log(error);
+      const errorMsg = error.response.data.msg;
+      Swal.fire({
+        icon: 'error',
+        title: 'Error to delete',
+        text: errorMsg,
+        showClass: {
+          popup: `
+            animate__animated
+            animate__fadeInUp
+            animate__faster
+          `,
+        },
+        hideClass: {
+          popup: `
+            animate__animated
+            animate__fadeOutDown
+            animate__faster
+          `,
+        },
+        showConfirmButton: true,
+      });
+    }
   };
 
   return {

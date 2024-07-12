@@ -34,7 +34,7 @@ export const calendarStore = create(
       set(
         (state) => ({
           events: state.events.map((event) =>
-            event._id === updateEvent._id ? updateEvent : event
+            event.id === updateEvent.id ? updateEvent : event
           ),
         }),
         false,
@@ -56,10 +56,17 @@ export const calendarStore = create(
       set((state) => ({
         events:
           state.isActive !== null
-            ? state.events.filter((event) => event._id !== state.isActive._id)
+            ? state.events.filter((event) => event.id !== state.isActive.id)
             : state.events,
 
         isActive: (state.isActive = null),
+      })),
+
+    onCleanCalendar: () =>
+      set((state) => ({
+        isLoadingEvents: true,
+        events: (state.events = []),
+        isActive: null,
       })),
   }))
 );
